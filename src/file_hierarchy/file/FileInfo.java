@@ -15,7 +15,7 @@ public class FileInfo {
 
 
     /*
-    Constructing Fileinfo with information about the path of the file and
+    Constructing FileInfo with information about the path of the file and
     the files it requires.
      */
     public FileInfo(String path) {
@@ -26,7 +26,7 @@ public class FileInfo {
 
     /*
     Finding the requirements in the text of the file.
-    The requirments are listed on separate lines using the structure:
+    The requirements are listed on separate lines using the structure:
     require '<path_to_the_file_from_the_root_catalogue>'
      */
     private void findRequirements() {
