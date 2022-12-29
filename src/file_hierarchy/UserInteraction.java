@@ -20,7 +20,6 @@ public class UserInteraction {
     public static void start(){
         System.out.println("This app can help you concatenate files with the specific structure.");
         String folder = getFolderPath();
-        System.out.println(folder);
         concatenationProcess(folder);
     }
 
@@ -41,10 +40,11 @@ public class UserInteraction {
         }
     }
 
+    /*
+    Method for executing the process of concatenation.
+     */
     private static void concatenationProcess(String folder){
-        //FileManager manager = new FileManager(folder);
-        //try{
-        //    manager.concatenate;
-        //}
+        FileManager manager = new FileManager(folder);
+        manager.concatenateAll();
     }
 }

@@ -1,5 +1,7 @@
 package file_hierarchy.file;
 
+import file_hierarchy.exceptions.InvalidSortingException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,8 +35,19 @@ public class FileManager {
                     .toList();
         } catch (IOException e) {
             System.out.println("There was an error while walking through the folder");
-            return new ArrayList<Path>();
+            return new ArrayList<>();
         }
+    }
+
+
+    public List<FileInfo> getFilesInfo(List<Path> paths) {
+        List<FileInfo> filesInfo = new ArrayList<>();
+        for (Path path : paths) {
+            FileInfo currentFileInfo = new FileInfo(path);
+            currentFileInfo.formDependencies(folder, paths);
+            filesInfo.add(currentFileInfo);
+        }
+        return filesInfo;
     }
 
 
@@ -42,6 +55,15 @@ public class FileManager {
     Method for concatenating all the files if it's possible.
      */
     public void concatenateAll() {
-        //
+        FileList fileList = new FileList(getFilesInfo(getFilePaths()));
+        try {
+            fileList.sort();
+            for (FileInfo info : fileList.getSortedFilesInfo()) {
+                System.out.println(info.getPath().toString());
+            }
+        } catch (InvalidSortingException e) {
+            System.out.println("This folder cannot be turned into a file hierarchy.");
+            System.out.println("Check the files for cyclic dependencies.");
+        }
     }
 }
