@@ -11,8 +11,13 @@ import java.util.regex.Pattern;
 
 
 public class FileInfo {
+
     private final Path path;
+
+    // All the information in files containing require '<sth>'.
     private List<String> requirements;
+
+    // Correct dependencies, formed using require and the analysed folder.
     protected List<Path> dependencies;
 
 
@@ -36,8 +41,10 @@ public class FileInfo {
         requirements = new ArrayList<>();
         Pattern pattern = Pattern.compile("require ‘.*’");
         Matcher matcher;
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(path.toString()));
+
             try {
                 String input;
                 while ((input = reader.readLine()) != null) {
@@ -50,6 +57,7 @@ public class FileInfo {
             } catch (IOException e) {
                 System.out.println("Exception when working with the file: " + path);
             }
+
         } catch (FileNotFoundException e) {
             System.out.println("The file " + path + "cannot be found.");
         }
@@ -63,9 +71,11 @@ public class FileInfo {
         return new ArrayList<>(requirements);
     }
 
+
     public Path getPath() {
         return path;
     }
+
 
     /*
     Forming the dependencies.
