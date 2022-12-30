@@ -21,7 +21,7 @@ public class FileList {
 
 
     public List<FileInfo> getSortedFilesInfo() {
-        if (!sortedFilesInfo.isEmpty()) {
+        if (sortedFilesInfo != null) {
             return new ArrayList<>(sortedFilesInfo);
         }
         return new ArrayList<>();
@@ -36,14 +36,22 @@ public class FileList {
         if (!filesInfo.isEmpty()) {
             List<FileInfo> sorted = new ArrayList<>();
             List<FileInfo> visited = new ArrayList<>();
-            emplace(filesInfo.get(0), sorted, visited);
+
+            while (visited.size() < filesInfo.size()) {
+                for (FileInfo file : filesInfo) {
+                    if (!visited.contains(file)) {
+                        emplace(file, sorted, visited);
+                    }
+                }
+            }
+
             sortedFilesInfo = new ArrayList<>(sorted);
         }
     }
 
 
     /*
-    Emplacing each FileInfo into its correct position according to the sorting algorithm.
+    Emplace each FileInfo into its correct position according to the sorting algorithm.
      */
     public void emplace(FileInfo currentInfo, List<FileInfo> sorted, List<FileInfo> visited)
             throws InvalidSortingException {
@@ -55,7 +63,8 @@ public class FileList {
 
                     if (!sorted.contains(fileInfo)) {
                         if (visited.contains(fileInfo)) {
-                            throw new InvalidSortingException(fileInfo.getPath().toString());
+                            throw new InvalidSortingException("There is a problem with file: " +
+                                    currentInfo.getPath().toString());
                         }
                         emplace(fileInfo, sorted, visited);
                     }
