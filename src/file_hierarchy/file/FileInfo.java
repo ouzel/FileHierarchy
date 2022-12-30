@@ -3,6 +3,7 @@ package file_hierarchy.file;
 import file_hierarchy.exceptions.InvalidRequirementException;
 
 import java.io.*;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,10 @@ public class FileInfo {
             } catch (InvalidRequirementException e) {
                 System.out.println("Invalid requirement: " + requirement);
                 System.out.println();
+            } catch (InvalidPathException e) {
+                System.out.println("The path in the requirement is invalid.");
+            } catch (Throwable e) {
+                System.out.println("Exception when reading a requirement");
             }
         }
     }
