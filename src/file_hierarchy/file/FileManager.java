@@ -33,9 +33,16 @@ public class FileManager {
      */
     public List<Path> getFilePaths() {
         try (Stream<Path> paths = Files.walk(Paths.get(folder))) {
-            return paths
+            List<Path> allFilesPaths = paths
                     .filter(Files::isRegularFile)
                     .toList();
+            List<Path> txtFilesPaths = new ArrayList<>();
+            for (Path currentFilePath : allFilesPaths) {
+                if (currentFilePath.toString().endsWith(".txt")) {
+                    txtFilesPaths.add(currentFilePath);
+                }
+            }
+            return txtFilesPaths;
         } catch (IOException e) {
             System.out.println("There was an error while walking through the folder");
             return new ArrayList<>();
